@@ -1,5 +1,5 @@
 <template>
-  <div class="navbar">
+  <div class="navbar sticky top-0 z-10 bg-[#eee]">
     <h3 class="text-lg font-bold drop-shadow-[0_4px_4px_rgba(0,0,0,0.75)]">CLRMDR</h3>
 
     <div>
@@ -27,12 +27,9 @@ import { ChevronRight } from 'lucide-vue-next'
 <style scoped>
 .navbar {
   width: 100%;
-  /* height: 105px; */
   display: flex;
   justify-content: space-around;
   align-items: center;
-  /* padding-top: 36px;
-  padding-bottom: 33px; */
   padding: 24px 0;
   border-bottom: 1px solid #ccc;
 }
