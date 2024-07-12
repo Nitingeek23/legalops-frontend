@@ -1,22 +1,18 @@
 <template>
   <!-- <ScrollArea class=""> -->
-  <ScrollArea class="flex-grow h-full" id="scroll-container">
+  <ScrollArea
+    class="flex-grow flex flex-col justify-start items-center h-full"
+    id="scroll-container"
+  >
     <div>
       <AboutUs />
     </div>
-    <div class="bg-[#0000ff]" :style="`height: ${heightVar}`">
-      Jokester began sneaking into the castle in the middle of the night and leaving jokes all over
-      the place: under the king's pillow, in his soup, even in the royal toilet. The king was
-      furious, but he couldn't seem to stop Jokester. And then, one day, the people of the kingdom
-      discovered that the jokes left by Jokester were so funny that they couldn't help but laugh.
-      And once they started laughing, they couldn't stop.
+    <div class="w-full flex flex-col justify-center items-center gap-8">
+      <Separator class="w-3/4 text-[#000]" />
+      <JoinUs />
     </div>
-    <div class="bg-[#0000ff]" :style="`height: ${heightVar}`">
-      Jokester began sneaking into the castle in the middle of the night and leaving jokes all over
-      the place: under the king's pillow, in his soup, even in the royal toilet. The king was
-      furious, but he couldn't seem to stop Jokester. And then, one day, the people of the kingdom
-      discovered that the jokes left by Jokester were so funny that they couldn't help but laugh.
-      And once they started laughing, they couldn't stop.
+    <div :style="`height: ${heightVar}`">
+      <NewsAndUpdates />
     </div>
   </ScrollArea>
   <!-- </ScrollArea> -->
@@ -24,7 +20,10 @@
 
 <script setup lang="ts">
 import ScrollArea from '@/components/custom/scroll-area/ScrollArea.vue'
+import Separator from '@/components/custom/separator/Separator.vue'
 import AboutUs from '@/components/LandingScreen/AboutUs.vue'
+import JoinUs from '@/components/LandingScreen/JoinUs.vue'
+import NewsAndUpdates from '@/components/LandingScreen/NewsAndUpdates.vue'
 import { onMounted, ref } from 'vue'
 const heightVar = ref<string>('200px')
 
