@@ -58,7 +58,4 @@ img {
   padding: 1rem;
 }
 
-/* .flex-col {
-  flex-direction: column;
-} */
 </style>

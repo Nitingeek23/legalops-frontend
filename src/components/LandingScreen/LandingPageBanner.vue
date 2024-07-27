@@ -4,6 +4,9 @@
     class="flex-grow flex flex-col justify-start items-center h-full"
     id="scroll-container"
   >
+  <div :style="`height: ${heightVar}`">
+      <HomePageContent />
+    </div>
     <div>
       <AboutUs />
     </div>
@@ -13,6 +16,9 @@
     </div>
     <div class="w-full flex flex-col justify-center items-center gap-8">
       <NewsAndUpdates />
+    </div>
+    <div :style="`height: ${heightVar}`">
+      <ContactUs />
     </div>
   </ScrollArea>
   <!-- </ScrollArea> -->
@@ -24,6 +30,8 @@ import Separator from '@/components/custom/separator/Separator.vue'
 import AboutUs from '@/components/LandingScreen/AboutUs.vue'
 import JoinUs from '@/components/LandingScreen/JoinUs.vue'
 import NewsAndUpdates from '@/components/LandingScreen/NewsAndUpdates.vue'
+import HomePageContent from "@/components/LandingScreen/HomePageContent.vue"
+import ContactUs from "@/components/LandingScreen/ContactUs.vue"
 import { onMounted, ref } from 'vue'
 const heightVar = ref<string>('200px')
 
