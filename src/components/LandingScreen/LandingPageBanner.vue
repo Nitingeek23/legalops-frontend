@@ -11,7 +11,7 @@
       <Separator class="w-3/4 text-[#000]" />
       <JoinUs />
     </div>
-    <div :style="`height: ${heightVar}`">
+    <div class="w-full flex flex-col justify-center items-center gap-8">
       <NewsAndUpdates />
     </div>
   </ScrollArea>
