@@ -1,17 +1,15 @@
 <template>
-  <div class="flex flex-col items-center min-h-screen py-16 px-16 w-3/4">
+  <div class="flex flex-col items-center min-h-screen py-16 px-16 w-4/5">
     <div class="flex items-center justify-between mb-8 w-full">
       <h1 class="text-4xl font-bold">News & Updates</h1>
       <Button class="rounded-full p-2 text-white bg-[#039C62]">View more articles</Button>
     </div>
-    <div class="flex flex-col gap-8 flex-grow">
+    <div class="flex flex-col gap-4 flex-grow">
       <NewsCard :content="newsData[0]" orientation="row" />
-
       <div class="flex flex-row gap-4">
         <NewsCard v-for="(news, index) in horizontallyAlignedNews" :key="index" :content="news" />
       </div>
     </div>
-    <div class="flex-grow"></div>
   </div>
 </template>
 
