@@ -1,9 +1,13 @@
 <script setup lang="ts">
-import TheWelcome from '../components/TheWelcome.vue'
+import Navbar from '@/components/Navbar.vue'
+import LandingPageBanner from '@/components/LandingScreen/LandingPageBanner.vue'
 </script>
 
 <template>
-  <main>
-    <TheWelcome />
-  </main>
+  <div class="flex flex-col h-screen">
+    <Navbar />
+    <LandingPageBanner />
+  </div>
 </template>
+
+<style scoped lang="css"></style>

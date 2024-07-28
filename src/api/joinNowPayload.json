@@ -1,0 +1,22 @@
+{
+    "request": {
+        "role": "enum",    //! 0-> Arbitrator   1-> Case Manager    2-> Mediator  3-> Super Admin (Manav)
+        "profilePhoto": "file",
+        "fullName": "string",
+        "phoneNumber": "number",
+        "email": "string",
+        "fullAddress": "string",
+        "educationCertificate": "file",
+        "language": "Array<String>",
+        "experience": "number",
+        "cv": "file",
+        "signature": "file",
+        "panCard": "file",
+        "adhaarCard": "file",
+        "cancelCheque" :"file",
+        "companyname": "string",
+        "subject": "string",
+        "position": "string",
+        "description": "string"
+    }
+}
