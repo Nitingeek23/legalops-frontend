@@ -20,6 +20,10 @@
     <div class="w-full flex flex-col justify-center items-center gap-8">
       <ContactUs />
     </div>
+    <div>
+     <Separator class="w-3/4 text-[#000]" />
+     <Footer />
+    </div>
   </ScrollArea>
   <!-- </ScrollArea> -->
 </template>
@@ -32,6 +36,7 @@ import JoinUs from '@/components/LandingScreen/JoinUs.vue'
 import NewsAndUpdates from '@/components/LandingScreen/NewsAndUpdates.vue'
 import HomePageContent from "@/components/LandingScreen/HomePageContent.vue"
 import ContactUs from "@/components/LandingScreen/ContactUs.vue"
+import Footer from '@/components/LandingScreen/Footer.vue'
 import { onMounted, ref } from 'vue'
 const heightVar = ref<string>('200px')
 

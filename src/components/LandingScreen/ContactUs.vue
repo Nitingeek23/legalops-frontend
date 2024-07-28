@@ -1,5 +1,5 @@
 <template>
-  <div class="flex flex-col items-center min-h-screen py-16 px-16 w-3/4 mx-auto border border-2">
+  <div class="flex flex-col items-center min-h-screen py-16 px-16 w-3/4 mx-auto">
     <div class="flex justify-between w-full mb-8">
       <div class="w-1/2 flex flex-col justify-between items-start">
         <h3 class="text-lg font-bold mb-8 ml-32">Contact Details</h3>
@@ -30,16 +30,6 @@
 </template>
 
 <script setup lang="ts">
-//! Two divs placed row wise, A button and a separator 
-//! Contact details, Contact us - two divs
-//! Footer can be integrated here 
 </script>
 
-<style scoped>
-/* .container {
-  max-width: 1200px;
-}
-.contact-details, .contact-us {
-  padding: 16px;
-} */
-</style>
+<style scoped></style>
