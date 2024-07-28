@@ -1,37 +1,31 @@
 <template>
-  <div class="flex flex-col items-center min-h-screen py-16 px-16 w-3/4 mx-auto border-2 border-bg['red']">
-    <div class="flex items-center justify-between mb-8 w-full">
-      <div class="w-1/2">
-        <h3 class="text-lg font-bold">Contact Details</h3>
-      </div>
-      <div class="w-1/2">
-        <h3 class="text-lg font-bold text-right">Contact Us</h3>
-      </div>
-    </div>
-    <div class="flex justify-between w-full">
-      <div class="contact-details w-1/2">
-        <div class="flex items-start mb-8 ml-[-100px]">
-          <img src="../../assets/pin.png" alt="Contact Icon 1" class="w-[50px] h-[50px] mr-8" />
-          <span class="text-[16px] mt-2">D-871, NEW FRIENDS COLONY New Delhi, 110025</span>
-        </div>
-        <div class="flex items-start mb-8 ml-[-100px]">
-          <img src="../../assets/phone.png" alt="Contact Icon 2" class="w-[50px] h-[50px] mr-8" />
-          <span class="text-[16px] mt-2">011 4182 5104</span>
-        </div>
-        <div class="flex items-center mb-8 ml-[-100px]">
-          <img src="../../assets/mailIcon.png" alt="Contact Icon 3" class="w-[50px] h-[50px] mr-8 self-center" />
-          <div class="flex flex-col">
-            <span class="text-[16px] my-1">arbitration@clrmdr.com</span>
-            <span class="text-[16px] my-1">mediation@clrmdr.com</span>
-            <span class="text-[16px] my-1">registrar@clrmdr.com</span>
+  <div class="flex flex-col items-center min-h-screen py-16 px-16 w-3/4 mx-auto border border-2">
+    <div class="flex justify-between w-full mb-8">
+      <div class="w-1/2 flex flex-col justify-between items-start">
+        <h3 class="text-lg font-bold mb-8 ml-32">Contact Details</h3>
+        <div class="w-full">
+          <div class="flex items-center mb-8 ml-16">
+            <img src="../../assets/pin.png" alt="Address Icon" class="w-[48px] h-[48px] mr-4" />
+            <span class="text-[16px]">D-871, NEW FRIENDS COLONY New Delhi, 110025</span>
+          </div>
+          <div class="flex items-center mb-8 ml-16">
+            <img src="../../assets/phone.png" alt="Phone Icon" class="w-[48px] h-[48px] mr-4" />
+            <span class="text-[16px]">011 4182 5104</span>
+          </div>
+          <div class="flex items-center ml-16">
+            <img src="../../assets/mailIcon.png" alt="Mail Icon" class="w-[48px] h-[48px] mr-4" />
+            <div>
+              <span class="text-[16px] block">arbitration@clrmdr.com</span>
+              <span class="text-[16px] block">mediation@clrmdr.com</span>
+              <span class="text-[16px] block">registrar@clrmdr.com</span>
+            </div>
           </div>
         </div>
       </div>
-      <!-- <div class="contact-us w-1/2">
-        <p class="text-[16px]">Feel free to reach out to us through the form below.</p>
-      </div> -->
+      <div class="w-1/2 flex justify-evenly">
+        <h3 class="text-lg font-bold">Contact Us</h3>
+      </div>
     </div>
-    <!-- <Footer /> -->
   </div>
 </template>
 
