@@ -19,7 +19,8 @@
         <p class="cursor-pointer hover:text-gray-400" @click="selectOption('Dashboard')">Dashboard</p>
         <p class="cursor-pointer hover:text-gray-400" @click="selectOption('Arbitrator')">Arbitrator</p>
         <p class="cursor-pointer hover:text-gray-400" @click="selectOption('Mediator')">Mediator</p>
-        <p class="cursor-pointer hover:text-gray-400" @click="selectOption('Relationship Manager')">Relationship Manager</p>
+        <p class="cursor-pointer hover:text-gray-400" @click="selectOption('Relationship Manager')">Relationship Manager
+        </p>
         <p class="cursor-pointer hover:text-gray-400" @click="selectOption('Case Manager')">Case Manager</p>
         <p class="cursor-pointer hover:text-gray-400" @click="selectOption('Bank/Finance')">Bank/Finance</p>
       </div>
@@ -37,13 +38,8 @@
       <div class="flex justify-between items-center mb-4">
         <h2 class="text-2xl">{{ selectedOption }} Data Table</h2>
         <div class="flex items-center space-x-2">
-          <input
-            v-model="searchQuery"
-            type="text"
-            placeholder="Search..."
-            class="border rounded p-2"
-            style="width: 200px;"
-          />
+          <input v-model="searchQuery" type="text" placeholder="Search..." class="border rounded p-2"
+            style="width: 200px;" />
           <select v-model="filterStatus" class="border rounded p-2">
             <option value="">All</option>
             <option value="Active">Active</option>
@@ -62,25 +58,121 @@
         </div>
       </div>
 
-      <!-- Data Table -->
-      <table class="min-w-full bg-white">
-        <thead>
-          <tr>
-            <th class="py-2 px-4 border-b text-left">Name</th>
-            <th class="py-2 px-4 border-b text-left">Contact Info</th>
-            <th class="py-2 px-4 border-b text-left">Downloads</th>
-            <th class="py-2 px-4 border-b text-left">Status</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr v-for="item in filteredSortedData" :key="item.id">
-            <td class="py-2 px-4 border-b">{{ item.name }}</td>
-            <td class="py-2 px-4 border-b">{{ item.contactInfo }}</td>
-            <td class="py-2 px-4 border-b">{{ item.downloads }}</td>
-            <td class="py-2 px-4 border-b">{{ item.status }}</td>
-          </tr>
-        </tbody>
-      </table>
+      <!-- Conditional Rendering of Table or Detailed View -->
+      <div v-if="!selectedUser">
+        <!-- Data Table -->
+        <table class="min-w-full bg-white">
+          <thead>
+            <tr>
+              <th class="py-2 px-4 border-b text-left">Name</th>
+              <th class="py-2 px-4 border-b text-left">Contact Info</th>
+              <th class="py-2 px-4 border-b text-left">Downloads</th>
+              <th class="py-2 px-4 border-b text-left">Status</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr v-for="item in filteredSortedData" :key="item.id" @click="selectUser(item)" class="cursor-pointer">
+              <td class="py-2 px-4 border-b">{{ item.name }}</td>
+              <td class="py-2 px-4 border-b">{{ item.contactInfo }}</td>
+              <td class="py-2 px-4 border-b">{{ item.downloads }}</td>
+              <td class="py-2 px-4 border-b">{{ item.status }}</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <!-- Detailed Card View -->
+      <div v-else>
+        <div class="flex items-center mb-4">
+          <button @click="selectedUser = null" class="bg-gray-500 text-white px-4 py-2 rounded">
+            Back
+          </button>
+        </div>
+        <div class="space-y-4">
+          <!-- Large Card -->
+          <div class="border p-4">
+            <div class="flex items-center mb-4">
+              <img src="../../assets/news2.png" alt="Profile" class="rounded-full w-24 h-24" />
+              <div class="ml-4">
+                <p class="text-lg font-semibold">{{ selectedUser.name }}</p>
+                <button class="bg-blue-500 text-white px-4 py-2 rounded mt-2">
+                  Download All Attachments
+                </button>
+              </div>
+            </div>
+            <div class="grid grid-cols-2 gap-4">
+              <div>
+                <p class="font-semibold">Phone Number:</p>
+                <p>{{ selectedUser.phoneNumber }}</p>
+              </div>
+              <div>
+                <p class="font-semibold">Preferred Language:</p>
+                <p>{{ selectedUser.preferredLanguage }}</p>
+              </div>
+              <div>
+                <p class="font-semibold">Email Address:</p>
+                <p>{{ selectedUser.email }}</p>
+              </div>
+              <div>
+                <p class="font-semibold">Experience:</p>
+                <p>{{ selectedUser.experience }}</p>
+              </div>
+              <div>
+                <p class="font-semibold">Full Address:</p>
+                <p>{{ selectedUser.fullAddress }}</p>
+              </div>
+              <div>
+                <p class="font-semibold">Application Form Date and Time:</p>
+                <p>{{ selectedUser.applicationFormDateTime }}</p>
+              </div>
+            </div>
+          </div>
+
+          <!-- Small Card -->
+          <div class="border p-4">
+  <div class="grid grid-cols-3 gap-x-4 gap-y-6 mb-4">
+    <div class="flex flex-col items-start">
+      <p class="font-semibold">10th Pass Certificate</p>
+      <div class="flex space-x-2 mt-2">
+        <button class="bg-gray-500 text-white px-2 py-1 rounded">Preview</button>
+        <button class="bg-gray-500 text-white px-2 py-1 rounded">Download</button>
+      </div>
+    </div>
+    <div class="flex flex-col items-start">
+      <p class="font-semibold">Aadhaar</p>
+      <div class="flex space-x-2 mt-2">
+        <button class="bg-gray-500 text-white px-2 py-1 rounded">Preview</button>
+        <button class="bg-gray-500 text-white px-2 py-1 rounded">Download</button>
+      </div>
+    </div>
+    <div class="flex flex-col items-start">
+      <p class="font-semibold">Cancelled Cheque</p>
+      <div class="flex space-x-2 mt-2">
+        <button class="bg-gray-500 text-white px-2 py-1 rounded">Preview</button>
+        <button class="bg-gray-500 text-white px-2 py-1 rounded">Download</button>
+      </div>
+    </div>
+    <div class="flex flex-col items-start col-span-2">
+      <p class="font-semibold">PAN Card</p>
+      <div class="flex space-x-2 mt-2">
+        <button class="bg-gray-500 text-white px-2 py-1 rounded">Preview</button>
+        <button class="bg-gray-500 text-white px-2 py-1 rounded">Download</button>
+      </div>
+    </div>
+    <div class="flex flex-col items-start col-span-1 ml-[-6px]">
+      <p class="font-semibold">Signature Photo</p>
+      <div class="flex space-x-2 mt-2">
+        <button class="bg-gray-500 text-white px-2 py-1 rounded">Preview</button>
+        <button class="bg-gray-500 text-white px-2 py-1 rounded">Download</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+        </div>
+      </div>
     </div>
   </div>
 </template>
@@ -94,32 +186,18 @@ const filterStatus = ref('');
 const sortKey = ref('name');
 const sortOrder = ref('asc');
 const selectedOption = ref('Dashboard');
+const selectedUser = ref(null);
 
 const data = {
   Dashboard: [
-    { id: 1, name: 'Alice', contactInfo: 'alice@example.com', downloads: 120, status: 'Active' },
-    { id: 2, name: 'Bob', contactInfo: 'bob@example.com', downloads: 85, status: 'Inactive' },
+    { id: 1, name: 'Alice', contactInfo: 'alice@example.com', downloads: 120, status: 'Active', phoneNumber: '1234567890', preferredLanguage: 'English', email: 'alice@example.com', experience: '5 years', fullAddress: '123 Main St, Anytown, USA', applicationFormDateTime: '2024-07-31 10:00 AM' },
+    { id: 2, name: 'Bob', contactInfo: 'bob@example.com', downloads: 85, status: 'Inactive', phoneNumber: '9876543210', preferredLanguage: 'Spanish', email: 'bob@example.com', experience: '3 years', fullAddress: '456 Elm St, Othertown, USA', applicationFormDateTime: '2024-07-31 11:00 AM' },
   ],
   Arbitrator: [
-    { id: 3, name: 'Charlie', contactInfo: 'charlie@example.com', downloads: 150, status: 'Active' },
-    { id: 4, name: 'Dave', contactInfo: 'dave@example.com', downloads: 90, status: 'Inactive' },
+    { id: 3, name: 'Charlie', contactInfo: 'charlie@example.com', downloads: 150, status: 'Active', phoneNumber: '1122334455', preferredLanguage: 'French', email: 'charlie@example.com', experience: '4 years', fullAddress: '789 Oak St, Sometown, USA', applicationFormDateTime: '2024-07-31 12:00 PM' },
+    { id: 4, name: 'Dave', contactInfo: 'dave@example.com', downloads: 90, status: 'Inactive', phoneNumber: '5566778899', preferredLanguage: 'German', email: 'dave@example.com', experience: '2 years', fullAddress: '101 Pine St, Anycity, USA', applicationFormDateTime: '2024-07-31 01:00 PM' },
   ],
-  Mediator: [
-    { id: 5, name: 'Eve', contactInfo: 'eve@example.com', downloads: 200, status: 'Active' },
-    { id: 6, name: 'Frank', contactInfo: 'frank@example.com', downloads: 60, status: 'Inactive' },
-  ],
-  'Relationship Manager': [
-    { id: 7, name: 'Grace', contactInfo: 'grace@example.com', downloads: 130, status: 'Active' },
-    { id: 8, name: 'Hank', contactInfo: 'hank@example.com', downloads: 70, status: 'Inactive' },
-  ],
-  'Case Manager': [
-    { id: 9, name: 'Ivy', contactInfo: 'ivy@example.com', downloads: 110, status: 'Active' },
-    { id: 10, name: 'Jack', contactInfo: 'jack@example.com', downloads: 95, status: 'Inactive' },
-  ],
-  'Bank/Finance': [
-    { id: 11, name: 'Karen', contactInfo: 'karen@example.com', downloads: 140, status: 'Active' },
-    { id: 12, name: 'Leo', contactInfo: 'leo@example.com', downloads: 50, status: 'Inactive' },
-  ],
+  // Add other sections similarly...
 };
 
 const currentData = computed(() => data[selectedOption.value]);
@@ -134,7 +212,7 @@ const filteredSortedData = computed(() => {
 
   // Search
   if (searchQuery.value) {
-    result = result.filter(item => 
+    result = result.filter(item =>
       item.name.toLowerCase().includes(searchQuery.value.toLowerCase()) ||
       item.contactInfo.toLowerCase().includes(searchQuery.value.toLowerCase())
     );
@@ -154,6 +232,11 @@ const filteredSortedData = computed(() => {
 
 function selectOption(option) {
   selectedOption.value = option;
+  selectedUser.value = null; // Reset selected user when switching sections
+}
+
+function selectUser(user) {
+  selectedUser.value = user;
 }
 </script>
 
@@ -163,7 +246,8 @@ table {
   border-collapse: collapse;
 }
 
-th, td {
+th,
+td {
   padding: 12px;
   border-bottom: 1px solid #ddd;
 }
@@ -174,5 +258,13 @@ th {
 
 tbody tr:hover {
   background-color: #f1f1f1;
+}
+
+button {
+  outline: none;
+}
+
+.border {
+  border: 1px solid #ddd;
 }
 </style>
