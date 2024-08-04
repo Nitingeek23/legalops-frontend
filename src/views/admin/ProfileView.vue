@@ -77,10 +77,13 @@
               </tr>
             </thead>
             <tbody>
-              <tr v-for="item in filteredSortedData" :key="item.id" @click="selectUser(item)" class="cursor-pointer">
+              <tr v-for="item in users" :key="item.id" @click="selectUser(item)" class="cursor-pointer">
                 <td class="py-2 px-4 border-b">{{ item.name }}</td>
                 <td class="py-2 px-4 border-b">{{ item.contactInfo }}</td>
-                <td class="py-2 px-4 border-b">{{ item.downloads }}</td>
+                <td class="py-2 px-4 border-b">
+                  <a v-if="item.downloads" :href="`http://${item.downloads}`" target="_blank">Download CV</a>
+                  <span v-else>No CV</span>
+                </td>
                 <td class="py-2 px-4 border-b">{{ item.status }}</td>
               </tr>
             </tbody>
@@ -236,7 +239,7 @@
           <input type="file" ref="fileInput" accept="application/vnd.openxmlformats-officedocument.spreadsheetml.sheetl"
             style="display: none" @change="handleFileChange" />
         </button>
-        <button class="bg-green-500 text-white px-4 py-2 rounded ml-2">Send</button>
+        <button class="bg-green-500 text-white px-4 py-2 rounded ml-2 " :disabled="dropdownOpen">Send</button>
       </div>
 
     </div>
@@ -251,7 +254,7 @@
         <div class="mb-4">
           <label class="block text-gray-700 mb-2" for="description">Description</label>
           <textarea v-model="newNotice.description" id="description" class="border rounded p-2 w-full"
-            placeholder="Enter description"></textarea>
+            placeholder="Enter description" @input="validateNoticeForm"></textarea>
         </div>
         <div class="mb-4">
           <label class="block text-gray-700 mb-2" for="file">File Upload</label>
@@ -259,7 +262,8 @@
         </div>
         <div class="flex justify-end space-x-4">
           <button @click="showAddNoticeModal = false" class="bg-gray-500 text-white px-4 py-2 rounded">Cancel</button>
-          <button @click="addNotice" class="bg-blue-500 text-white px-4 py-2 rounded">Add</button>
+          <button @click="addNotice" :disabled="!isNoticeFormValid"
+            class="bg-blue-500 text-white px-4 py-2 rounded">Add</button>
         </div>
       </div>
     </div>
@@ -270,6 +274,7 @@
 import { ref, computed, onMounted } from 'vue';
 import Separator from '@/components/custom/separator/Separator.vue';
 import axios from 'axios'
+import { UserType } from '../../types/NewsTypes'
 const searchQuery = ref('');
 const filterStatus = ref('');
 const sortKey = ref('name');
@@ -332,12 +337,37 @@ const filteredSortedData = computed(() => {
   return result;
 });
 
-function selectOption(option) {
+const isNoticeFormValid = computed(() => {
+  return newNotice.value.title && newNotice.value.description && newNotice.value.file;
+});
+
+// Define your function
+function validateNoticeForm() {
+  // Using the `value` property to access the refs
+  isNoticeFormValid.value = newNotice.value.title && newNotice.value.description && newNotice.value.file;
+}
+const selectOption = async (option) => {
   selectedOption.value = option;
   selectedUser.value = null; // Reset selected user when switching sections
   showNoticeOptions.value = false; // Hide notice sub-options when switching sections
-  // selectedNoticeOption.value = false
-}
+
+  try {
+    const response = await axios.get(`http://13.233.211.18:3005/users`, {
+      params: { user_type: UserType[option] }
+    });
+    if (response.data && response.data.users) {
+      users.value = response.data.users.map(user => ({
+        id: user.user_id,
+        name: user.full_name,
+        contactInfo: user.phone_no,
+        downloads: user.cvFilePath,
+        status: user.approval_status_display_text
+      }));
+    }
+  } catch (error) {
+    console.error('Error fetching users:', error);
+  }
+};
 
 function toggleNoticeOptions() {
   showNoticeOptions.value = !showNoticeOptions.value;
