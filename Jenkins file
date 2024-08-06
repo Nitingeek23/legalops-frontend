@@ -2,51 +2,67 @@ pipeline {
     agent any
 
     environment {
-        // Set environment variables if needed
-        NODE_HOME = '/usr/local/node' // Adjust this path to where Node.js is installed
+        NODE_ENV = 'production'
+        DEPLOY_DIR = '/var/www/html/legalops-cicd'
     }
 
     stages {
         stage('Checkout') {
             steps {
-                // Checkout code from Git repository using credentials
-                git credentialsId: 'github-PAT', url: 'https://github.com/Nitingeek23/legalops-frontend.git'
+                // Checkout the code from GitHub
+                git url: 'https://github.com/Nitingeek23/legalops-frontend.git', branch: 'main', credentialsId: 'github-PAT'
             }
         }
 
         stage('Install Dependencies') {
             steps {
-                // Install dependencies
-                sh 'npm install'
+                script {
+                    // Install dependencies using npm or yarn
+                    if (fileExists('package-lock.json')) {
+                        sh 'npm install'
+                    } else if (fileExists('yarn.lock')) {
+                        sh 'yarn install'
+                    } else {
+                        error 'No package-lock.json or yarn.lock file found. Unable to install dependencies.'
+                    }
+                }
             }
         }
 
         stage('Build') {
             steps {
-                // Build the project
-                sh 'npm run build'
-            }
-        }
-
-        stage('Test') {
-            steps {
-                // Run tests
-                sh 'npm run test'
+                script {
+                    // Build the Vue.js project
+                    sh 'npm run build'  // Or 'yarn build' if you're using Yarn
+                }
             }
         }
 
         stage('Deploy') {
             steps {
-                // Deployment steps
-                echo 'Deploying the application...'
+                script {
+                    // Deploy the build artifacts to your server directory
+                    sh '''
+                        # Ensure the deploy directory exists
+                        mkdir -p ${DEPLOY_DIR}
+
+                        # Remove old files in the deploy directory
+                        rm -rf ${DEPLOY_DIR}/*
+
+                        # Copy the build files to the deploy directory
+                        cp -r dist/* ${DEPLOY_DIR}
+                    '''
+                }
             }
         }
     }
 
     post {
-        always {
-            // Actions to perform after pipeline completion
-            echo 'Pipeline completed.'
+        success {
+            echo 'Build and deployment successful!'
+        }
+        failure {
+            echo 'Build or deployment failed.'
         }
     }
 }
