@@ -1,0 +1,68 @@
+pipeline {
+    agent any
+
+    environment {
+        NODE_ENV = 'production'
+        DEPLOY_DIR = '/var/www/html/legalops-cicd'
+    }
+
+    stages {
+        stage('Checkout') {
+            steps {
+                // Checkout the code from GitHub
+                git url: 'https://github.com/Nitingeek23/legalops-frontend.git', branch: 'main', credentialsId: 'github-PAT'
+            }
+        }
+
+        stage('Install Dependencies') {
+            steps {
+                script {
+                    // Install dependencies using npm or yarn
+                    if (fileExists('package-lock.json')) {
+                        sh 'npm install'
+                    } else if (fileExists('yarn.lock')) {
+                        sh 'yarn install'
+                    } else {
+                        error 'No package-lock.json or yarn.lock file found. Unable to install dependencies.'
+                    }
+                }
+            }
+        }
+
+        stage('Build') {
+            steps {
+                script {
+                    // Build the Vue.js project
+                    sh 'npm run build'  // Or 'yarn build' if you're using Yarn
+                }
+            }
+        }
+
+        stage('Deploy') {
+            steps {
+                script {
+                    // Deploy the build artifacts to your server directory
+                    sh '''
+                        # Ensure the deploy directory exists
+                        mkdir -p ${DEPLOY_DIR}
+
+                        # Remove old files in the deploy directory
+                        rm -rf ${DEPLOY_DIR}/*
+
+                        # Copy the build files to the deploy directory
+                        cp -r dist/* ${DEPLOY_DIR}
+                    '''
+                }
+            }
+        }
+    }
+
+    post {
+        success {
+            echo 'Build and deployment successful!'
+        }
+        failure {
+            echo 'Build or deployment failed.'
+        }
+    }
+}
