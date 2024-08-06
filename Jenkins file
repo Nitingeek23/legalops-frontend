@@ -1,6 +1,10 @@
 pipeline {
     agent any
 
+    environment {
+        PATH = "/root/.nvm/versions/node/v20.16.0/bin:${env.PATH}"
+    }
+
     stages {
         stage('Checkout') {
             steps {
@@ -10,21 +14,27 @@ pipeline {
 
         stage('Install Dependencies') {
             steps {
-                sh 'npm install'
+                script {
+                    sh 'npm install'
+                }
             }
         }
 
         stage('Build') {
             steps {
-                sh 'npm run build'
+                script {
+                    sh 'npm run build'
+                }
             }
         }
 
         stage('Deploy') {
             steps {
-                sh '''
-                    scp -r dist/* user@your-server:/path/to/deploy/directory/
-                '''
+                script {
+                    sh '''
+                        scp -r dist/* user@your-server:/path/to/deploy/directory/
+                    '''
+                }
             }
         }
     }
