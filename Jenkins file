@@ -9,8 +9,8 @@ pipeline {
     stages {
         stage('Checkout') {
             steps {
-                // Checkout code from Git repository
-                git 'https://github.com/Nitingeek23/legalops-frontend.git'
+                // Checkout code from Git repository using credentials
+                git credentialsId: 'github-PAT', url: 'https://github.com/Nitingeek23/legalops-frontend.git'
             }
         }
 
@@ -38,7 +38,6 @@ pipeline {
         stage('Deploy') {
             steps {
                 // Deployment steps
-                // Example: Deploy to a server or upload artifacts
                 echo 'Deploying the application...'
             }
         }
