@@ -2,16 +2,12 @@ pipeline {
     agent any
 
     environment {
-        // Define environment variables if needed
-        NODE_ENV = 'production'
-        NPM_PATH = '/root/.nvm/versions/node/v20.16.0/bin/npm'
-        NODE_PATH = '/root/.nvm/versions/node/v20.16.0/bin/node'
+        PATH = "/root/.nvm/versions/node/v20.16.0/bin:${env.PATH}"
     }
 
     stages {
         stage('Checkout') {
             steps {
-                // Checkout the code from GitHub
                 git url: 'https://github.com/Nitingeek23/legalops-frontend.git', branch: 'main', credentialsId: 'github-PAT'
             }
         }
@@ -19,8 +15,7 @@ pipeline {
         stage('Install Dependencies') {
             steps {
                 script {
-                    // Install dependencies using npm
-                    sh "${env.NPM_PATH} install"
+                    sh 'npm install'
                 }
             }
         }
@@ -28,8 +23,7 @@ pipeline {
         stage('Build') {
             steps {
                 script {
-                    // Build the Vue.js project
-                    sh "${env.NPM_PATH} run build"  // Or adjust if using Yarn
+                    sh 'npm run build'
                 }
             }
         }
@@ -37,8 +31,6 @@ pipeline {
         stage('Deploy') {
             steps {
                 script {
-                    // Deploy the build artifacts to your server
-                    // This example assumes you're deploying to a directory on the server
                     sh '''
                         scp -r dist/* user@your-server:/path/to/deploy/directory/
                     '''
