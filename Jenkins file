@@ -2,8 +2,10 @@ pipeline {
     agent any
 
     environment {
+        // Define environment variables if needed
         NODE_ENV = 'production'
-        DEPLOY_DIR = '/var/www/html/legalops-cicd'
+        NPM_PATH = '/root/.nvm/versions/node/v20.16.0/bin/npm'
+        NODE_PATH = '/root/.nvm/versions/node/v20.16.0/bin/node'
     }
 
     stages {
@@ -17,14 +19,8 @@ pipeline {
         stage('Install Dependencies') {
             steps {
                 script {
-                    // Install dependencies using npm or yarn
-                    if (fileExists('package-lock.json')) {
-                        sh 'npm install'
-                    } else if (fileExists('yarn.lock')) {
-                        sh 'yarn install'
-                    } else {
-                        error 'No package-lock.json or yarn.lock file found. Unable to install dependencies.'
-                    }
+                    // Install dependencies using npm
+                    sh "${env.NPM_PATH} install"
                 }
             }
         }
@@ -33,7 +29,7 @@ pipeline {
             steps {
                 script {
                     // Build the Vue.js project
-                    sh 'npm run build'  // Or 'yarn build' if you're using Yarn
+                    sh "${env.NPM_PATH} run build"  // Or adjust if using Yarn
                 }
             }
         }
@@ -41,16 +37,10 @@ pipeline {
         stage('Deploy') {
             steps {
                 script {
-                    // Deploy the build artifacts to your server directory
+                    // Deploy the build artifacts to your server
+                    // This example assumes you're deploying to a directory on the server
                     sh '''
-                        # Ensure the deploy directory exists
-                        mkdir -p ${DEPLOY_DIR}
-
-                        # Remove old files in the deploy directory
-                        rm -rf ${DEPLOY_DIR}/*
-
-                        # Copy the build files to the deploy directory
-                        cp -r dist/* ${DEPLOY_DIR}
+                        scp -r dist/* user@your-server:/path/to/deploy/directory/
                     '''
                 }
             }
